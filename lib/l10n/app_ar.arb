@@ -1,0 +1,16 @@
+{
+  "taskTitle":"عنوان المهام",
+  "taskDescription": "الوصف",
+  "titleApp": "قائمه المهام  ",
+  "addnewTask": "اضافه مهام جديده ",
+  "themeing": "السمات",
+  "language": "اللغه",
+  "selectdate": "اختر التاريخ",
+  "addTask": "اضافه المهام",
+  "langENg": "انجليزي",
+  "langArb": "عربي",
+  "light":"فاتح",
+  "dark": "داكن"
+
+
+}

@@ -1,0 +1,16 @@
+{
+  "taskTitle":"TaskTitle",
+  "taskDescription": "Description",
+  "titleApp": "ToDo",
+  "addnewTask": "Add new Task",
+  "themeing": "Theming",
+  "language": "Language",
+  "selectdate": "Select Date",
+  "addTask": "Add Task",
+  "langENg": "English",
+  "langArb": "Arabic",
+  "light":"Light",
+  "dark": "Dark"
+
+
+}

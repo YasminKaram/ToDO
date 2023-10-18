@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/Provider/MyProvider.dart';
+import 'package:todo/Screens/Register/Register.dart';
+import 'package:todo/Screens/Tasks/EditTask.dart';
 import 'package:todo/Shared/style/MyThemedata.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/layout/homeLayout.dart';
@@ -16,6 +19,10 @@ void main()async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+//   دي معناها هتكون local مش هيرفعها ومش هنستخدم future مش هنحتاج
+  //FirebaseFirestore.instance.disableNetwork();
+
+
   runApp(ChangeNotifierProvider(create: (context) => MyProvider()..init(),
       child: MyApp()));
 }
@@ -35,10 +42,12 @@ class MyApp extends StatelessWidget {
       themeMode: pro.mode,
 
 
-      initialRoute: HomeLayout.routeName ,
+      initialRoute: RegisterScreen.routeName ,
 
       routes: {
+        RegisterScreen.routeName:(context) => RegisterScreen(),
       HomeLayout.routeName:(context) => HomeLayout(),
+        EditTask.routeName:(context) => EditTask(),
 
       },
     );

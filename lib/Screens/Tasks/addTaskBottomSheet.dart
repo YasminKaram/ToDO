@@ -17,89 +17,112 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
 
   var descriptionController = TextEditingController();
 
-  var selectedDate = DateTime.now();
-
+    var selectedDate = DateTime.now();
+  var formkey= GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     var pro = Provider.of<MyProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(AppLocalizations.of(context)!.addnewTask,
-              style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: pro.mode == ThemeMode.light
-                      ? Colors.black
-                      : Colors.white),
-              textAlign: TextAlign.center),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-                controller: titleController,
-                decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.taskTitle),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: primaryColor)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: primaryColor)))),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-                controller: descriptionController,
-                decoration: InputDecoration(
-                    label: Text(AppLocalizations.of(context)!.taskDescription),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: primaryColor)),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: primaryColor)))),
-          ),
-          Text(AppLocalizations.of(context)!.selectdate,
-              style: GoogleFonts.poppins(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color:pro.mode==ThemeMode.light?Colors.black:Colors.white)),
-          InkWell(
-            onTap: () {
-              selectDate(context);
-            },
-            child: Text(selectedDate.toString().substring(0, 10),
-                textAlign: TextAlign.center,
+      child: Form(
+        key: formkey ,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppLocalizations.of(context)!.addnewTask,
+                style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: pro.mode == ThemeMode.light
+                        ? Colors.black
+                        : Colors.white),
+                textAlign: TextAlign.center),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                validator: (value) {
+                  if(value==null || value.isEmpty){
+                    return "please enter task title";
+                  }
+                  return null;
+                },
+                  controller: titleController,
+                  decoration: InputDecoration(
+                      label: Text(AppLocalizations.of(context)!.taskTitle),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryColor)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryColor)))),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                  validator: (value) {
+                    if(value==null || value.isEmpty){
+                      return "please enter task description";
+                    }
+                    return null;
+                  },
+                  controller: descriptionController,
+                  decoration: InputDecoration(
+                      label: Text(AppLocalizations.of(context)!.taskDescription),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryColor)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: primaryColor)))),
+            ),
+            Text(AppLocalizations.of(context)!.selectdate,
                 style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: Colors.blue)),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              TaskModel taskModel = TaskModel(
-                  title: titleController.text,
-                  description: descriptionController.text,
-                  date: selectedDate.microsecondsSinceEpoch);
-              FirebaseFunctions.addTask(taskModel);
-              titleController.clear();
-              descriptionController.clear();
-            },
-            child: Text(AppLocalizations.of(context)!.addTask),
-            style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
-          )
-        ],
+                    color:pro.mode==ThemeMode.light?Colors.black:Colors.white)),
+            InkWell(
+              onTap: () {
+                selectDate(context);
+              },
+              child: Text(selectedDate.toString().substring(0, 10),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.blue)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () {
+
+
+                if(formkey.currentState!.validate()){
+                  TaskModel taskModel = TaskModel(
+                      title: titleController.text,
+                      description: descriptionController.text,
+                      date:
+                      DateUtils.dateOnly(selectedDate).millisecondsSinceEpoch);
+                  FirebaseFunctions.addTask(taskModel).then((value) {
+                    Navigator.pop(context);
+                    // هنشيل .then  في حاله انه local
+                  });
+                }
+
+
+              },
+              child: Text(AppLocalizations.of(context)!.addTask),
+              style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
+            )
+          ],
+        ),
       ),
     );
   }
 
-  selectDate(BuildContext context) async {
+    selectDate(BuildContext context) async {
     DateTime? chosenDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,

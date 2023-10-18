@@ -27,7 +27,7 @@ class MyThemeData {
       ),
       scaffoldBackgroundColor: mint,
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: primaryColor, size: 30),
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
         color: Colors.blue,
         elevation: 0.0,
         centerTitle: true,
@@ -62,7 +62,7 @@ class MyThemeData {
       ),
       scaffoldBackgroundColor: darkPrimary,
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: primaryColor, size: 30),
+        iconTheme: IconThemeData(color: Colors.white, size: 30,),
         color: Colors.blue,
         elevation: 0.0,
         centerTitle: true,

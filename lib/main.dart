@@ -13,25 +13,25 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo/prefs_Helper.dart';
 import 'package:todo/prefs_Helper.dart';
 
-void main()async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  PrefsHelper.prefs= await SharedPreferences.getInstance();
+  PrefsHelper.prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 //   دي معناها هتكون local مش هيرفعها ومش هنستخدم future مش هنحتاج
   //FirebaseFirestore.instance.disableNetwork();
 
-
-  runApp(ChangeNotifierProvider(create: (context) => MyProvider()..init(),
-      child: MyApp()));
+  runApp(ChangeNotifierProvider(
+      create: (context) => MyProvider()..init(), child: MyApp()));
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var pro=Provider.of<MyProvider>(context);
+    var pro = Provider.of<MyProvider>(context);
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -40,15 +40,13 @@ class MyApp extends StatelessWidget {
       darkTheme: MyThemeData.darkTheme,
       locale: Locale(pro.Language),
       themeMode: pro.mode,
-
-
-      initialRoute: RegisterScreen.routeName ,
-
+      initialRoute: pro.firebaseUser != null
+          ? HomeLayout.routeName
+          : RegisterScreen.routeName,
       routes: {
-        RegisterScreen.routeName:(context) => RegisterScreen(),
-      HomeLayout.routeName:(context) => HomeLayout(),
-        EditTask.routeName:(context) => EditTask(),
-
+        RegisterScreen.routeName: (context) => RegisterScreen(),
+        HomeLayout.routeName: (context) => HomeLayout(),
+        EditTask.routeName: (context) => EditTask(),
       },
     );
   }

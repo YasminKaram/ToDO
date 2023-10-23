@@ -54,7 +54,7 @@ class SignupScreen extends StatelessWidget {
               const SizedBox(height: 10),
               TextFormField(
                 controller: emailController,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: "Email",
                   prefixIcon: const Icon(Icons.person_outline),
@@ -134,7 +134,10 @@ class SignupScreen extends StatelessWidget {
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
                         FirebaseFunctions.createUser(
-                            emailController.text, passwordController.text,
+                            emailController.text,
+                            passwordController.text,
+                          usernameController.text,
+                            int.parse(ageController.text),
                             (){
                               Navigator.pushNamedAndRemoveUntil(context,RegisterScreen.routeName,
                                       (route) => false);
@@ -148,6 +151,7 @@ class SignupScreen extends StatelessWidget {
 
                                 actions: [
                                    ElevatedButton(onPressed: (){
+
                                      Navigator.pop(context);
                                    }, child:Text("okay"))
                                 ],

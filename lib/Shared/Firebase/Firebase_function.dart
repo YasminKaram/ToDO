@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/Models/TaskModel.dart';
+import 'package:todo/Models/UserModel.dart';
 
 class FirebaseFunctions {
   static CollectionReference<TaskModel> getTasksCollection() {
@@ -28,10 +29,10 @@ class FirebaseFunctions {
 
   static Stream<QuerySnapshot<TaskModel>> getTasks(DateTime dateTime) {
     return getTasksCollection()
-        .orderBy("date", descending: true)
-        .orderBy("title", descending: true)
+        .where("userId",isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .where("date",
             isEqualTo: DateUtils.dateOnly(dateTime).millisecondsSinceEpoch)
+
         .snapshots();
   }
 
@@ -53,7 +54,7 @@ class FirebaseFunctions {
     });
   }
 
-  static Future<void> createUser(String email, String password,Function onSuccess,Function onError)async {
+  static Future<void> createUser(String email, String password,String name,int age,Function onSuccess,Function onError)async {
 
     try {
       final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -61,7 +62,11 @@ class FirebaseFunctions {
         password: password,
       );
       if(credential.user?.uid !=null){
-        onSuccess();
+        UserModel userModel=UserModel(name: name, id: credential.user!.uid, email: email, age: age);
+        addUserToFirestore(userModel).then((value) {
+          onSuccess();
+        });
+
       }
 
     } on FirebaseAuthException catch (e) {
@@ -76,6 +81,7 @@ class FirebaseFunctions {
       }
     } catch (e) {
       print(e);
+
     }
 
   }
@@ -88,8 +94,20 @@ class FirebaseFunctions {
           email: email,
           password: password
       );
+      //email verify
+      credential.user!.sendEmailVerification();
       if(credential.user?.uid != null){
-        onSuccess();
+
+//check verify before login
+        if(credential.user!.emailVerified){
+
+          onSuccess();
+        }
+        else{
+          onError("Please verify your email");
+
+        }
+
 
 
       }
@@ -106,7 +124,32 @@ class FirebaseFunctions {
   }
 
 
-  static void addUserToFirestore(){
+
+  static CollectionReference<UserModel> getUsersCollection() {
+    return FirebaseFirestore.instance
+        .collection("Users")
+        .withConverter<UserModel>(
+      fromFirestore: (snapshot, options) {
+        return UserModel.fromJson(snapshot.data()!);
+      },
+      toFirestore: (value, options) {
+        return value.toJson();
+      },
+    );
+  }
+
+  static  addUserToFirestore(UserModel userModel){
+
+var collection=getUsersCollection();
+var doccref=collection.doc(userModel.id);
+return doccref.set(userModel);
 
   }
+
+  static Future<UserModel?> readUserFromFirestore(String id) async{
+    DocumentSnapshot<UserModel> doc=
+    await getUsersCollection().doc(id).get();
+     return doc.data();
+  }
+
 }

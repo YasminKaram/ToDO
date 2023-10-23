@@ -4,13 +4,15 @@ class TaskModel {
   String description;
   int date;
   bool isDone;
+  String userId;
 
   TaskModel(
       {this.id = "",
       required this.title,
       required this.description,
       required this.date,
-      this.isDone = false});
+      this.isDone = false,
+      required this.userId});
 
 
   TaskModel.fromJson(Map<String, dynamic>json) :this(
@@ -18,7 +20,9 @@ class TaskModel {
         description: json['description'],
         date: json['date'],
         id: json['id']
-        , isDone: json['isDone']
+        , isDone: json['isDone'],
+      userId:json['userId']
+
   );
   Map<String,dynamic>tojson(){
     return{
@@ -26,7 +30,8 @@ class TaskModel {
       "description":description,
       "date":date,
       "isDone":isDone,
-      "id":id
+      "id":id,
+      "userId":userId,
     };
 
   }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/Models/TaskModel.dart';
@@ -36,6 +37,7 @@ class TaskItem extends StatelessWidget {
               onPressed: (context) {
                 Navigator.pushNamed(context, EditTask.routeName,
                     arguments: TaskModel(
+                        userId: FirebaseAuth.instance.currentUser!.uid,
                       id: task.id,
                         title: task.title,
                         description: task.description,

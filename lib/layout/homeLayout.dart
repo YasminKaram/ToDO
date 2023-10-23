@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/Models/UserModel.dart';
 import 'package:todo/Provider/MyProvider.dart';
+import 'package:todo/Screens/Register/Register.dart';
 import 'package:todo/Screens/Settings/settings_tab.dart';
 import 'package:todo/Screens/Tasks/addTaskBottomSheet.dart';
 import 'package:todo/Screens/Tasks/tasks_tab.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo/Shared/style/Colors.dart';
+
 class HomeLayout extends StatefulWidget {
   static const String routeName = "layout";
 
@@ -19,15 +23,35 @@ class _HomeLayoutState extends State<HomeLayout> {
 
   @override
   Widget build(BuildContext context) {
-    var pro=Provider.of<MyProvider>(context);
+    var pro = Provider.of<MyProvider>(context);
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.titleApp),
+        title: Text(
+          "${AppLocalizations.of(context)!.titleApp} ${pro.userModel?.name}",
+        ),
         centerTitle: true,
+        actions: [
+          //reset password
+          IconButton(onPressed:(){
+            FirebaseAuth.instance.sendPasswordResetEmail(email:pro.userModel!.email);
+          },
+              icon: Icon(Icons.send,)),
+          IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RegisterScreen.routeName, (route) => false);
+              },
+              icon: Icon(
+                Icons.logout,
+              )),
+
+
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: pro.mode==ThemeMode.light ?Colors.white:darkPrimary,
+        color: pro.mode == ThemeMode.light ? Colors.white : darkPrimary,
         notchMargin: 8,
         shape: CircularNotchedRectangle(),
         child: BottomNavigationBar(

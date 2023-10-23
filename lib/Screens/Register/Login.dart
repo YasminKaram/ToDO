@@ -97,12 +97,17 @@ class LoginScreen extends StatelessWidget {
                       if (formKey.currentState?.validate() ?? false) {
                         FirebaseFunctions.login(
                                 emailController.text, passwordController.text, (){
-                                  Navigator.pushNamedAndRemoveUntil(context,HomeLayout.routeName, (route) => false);
+                                  pro.initUser();
+                                  Navigator.pushNamedAndRemoveUntil(context,HomeLayout.routeName,
+                                          (route) => false,
+                                  );
 
                         },(errorMessag){
                                   showDialog(context: context, builder:(context) => AlertDialog(title: Text("Error"),
                                   content: Text(errorMessag),actions: [
-                                    ElevatedButton(onPressed: (){}, child: Text("Okay"))
+                                    ElevatedButton(onPressed: (){
+                                      Navigator.pop(context);
+                                    }, child: Text("Okay"))
                                       ]),
                                   );
                         });

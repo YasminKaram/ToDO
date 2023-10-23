@@ -9,12 +9,12 @@ class MyProvider extends ChangeNotifier {
   String Language = "en";
   ThemeMode mode = ThemeMode.light;
 
-  late User  ? firebaseUser;
-  late UserModel ? userModel ;
+   User   ? firebaseUser;
+   UserModel   ?userModel ;
 
   //constructor
   MyProvider() {
-    firebaseUser = FirebaseAuth.instance.currentUser!;
+    firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
       initUser();
     }

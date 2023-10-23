@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyThemeData.darkTheme,
       locale: Locale(pro.Language),
       themeMode: pro.mode,
-      initialRoute: pro.firebaseUser != null
-          ? HomeLayout.routeName
+      initialRoute: pro.firebaseUser != null ?HomeLayout.routeName
           : RegisterScreen.routeName,
       routes: {
         RegisterScreen.routeName: (context) => RegisterScreen(),

@@ -27,8 +27,13 @@ class _HomeLayoutState extends State<HomeLayout> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        title: Text(
-          "${AppLocalizations.of(context)!.titleApp} ${pro.userModel?.name}",
+        title: Row(
+          children: [
+            Text(
+              "${AppLocalizations.of(context)!.titleApp} ",
+            ),
+            Text("${pro.userModel ?.name}"),
+          ],
         ),
         centerTitle: true,
         actions: [

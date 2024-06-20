@@ -1,6 +1,7 @@
 # todo
 
 A new Flutter project.
+to help you stay organized and manage your day-to-day
 
 ## Getting Started
 

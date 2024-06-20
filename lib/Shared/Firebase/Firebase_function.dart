@@ -27,14 +27,7 @@ class FirebaseFunctions {
     return documentRef.set(taskModel);
   }
 
-  static Stream<QuerySnapshot<TaskModel>> getTasks(DateTime dateTime) {
-    return getTasksCollection()
-        .where("userId",isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        .where("date",
-            isEqualTo: DateUtils.dateOnly(dateTime).millisecondsSinceEpoch)
 
-        .snapshots();
-  }
 
   static void deleteTask(String id) {
     getTasksCollection().doc(id).delete();
@@ -87,41 +80,7 @@ class FirebaseFunctions {
   }
 
 
-  static Future<void>login(String email,String password, Function onSuccess,Function onError)async{
 
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-      );
-      //email verify
-      credential.user!.sendEmailVerification();
-      if(credential.user?.uid != null){
-
-//check verify before login
-        if(credential.user!.emailVerified){
-
-          onSuccess();
-        }
-        else{
-          onError("Please verify your email");
-
-        }
-
-
-
-      }
-    } on FirebaseAuthException catch (e) {
-      onError("Wrong email or password");
-      // if (e.code == 'user-not-found') {
-      //   onError(e.message);
-      //   print('No user found for that email.');
-      // } else if (e.code == 'wrong-password') {
-      //   onError(e.message);
-      //   print('Wrong password provided for that user.');
-      // }
-    }
-  }
 
 
 

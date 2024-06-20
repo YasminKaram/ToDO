@@ -39,18 +39,18 @@ class _EditTaskState extends State<EditTask> {
 
     var pro = Provider.of<MyProvider>(context);
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(0xff5D9CEC)),
+      appBar: AppBar(backgroundColor:primaryColor),
       body: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
                 color: pro.mode == ThemeMode.light
-                    ? Color(0xffDFECDB)
+                    ? mint
                     : darkPrimary),
           ),
           Container(
             alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(color: Color(0xff5D9CEC)),
+            decoration: BoxDecoration(color: primaryColor),
             height: 120,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -132,7 +132,7 @@ class _EditTaskState extends State<EditTask> {
                                     style: GoogleFonts.poppins(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.blue)),
+                                        color: primaryColor)),
                               ),
                               SizedBox(
                                 height: 100,

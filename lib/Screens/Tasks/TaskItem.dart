@@ -45,8 +45,8 @@ class TaskItem extends StatelessWidget {
               },
               spacing: 0,
               label: "Edit",
-              icon: Icons.delete,
-              backgroundColor: Colors.blue,
+              icon: Icons.edit,
+              backgroundColor:Color(0xff476DB3),
             )
           ]),
           child: Padding(
@@ -94,7 +94,7 @@ class TaskItem extends StatelessWidget {
                               EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: Colors.blue),
+                              color: primaryColor.withOpacity(0.7)),
                           child: Icon(
                             Icons.check,
                             color: Colors.white,

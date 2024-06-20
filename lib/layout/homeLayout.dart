@@ -27,12 +27,14 @@ class _HomeLayoutState extends State<HomeLayout> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        backgroundColor: primaryColor,
         title: Row(
           children: [
             Text(
               "${AppLocalizations.of(context)!.titleApp} ",
             ),
-            Text("${pro.userModel ?.name}"),
+            SizedBox(width: 5,),
+            Text(" ${pro.userModel ?.name ??""} "),
           ],
         ),
         centerTitle: true,
@@ -72,11 +74,12 @@ class _HomeLayoutState extends State<HomeLayout> {
                   backgroundColor: Colors.transparent,
                   icon: Icon(
                     Icons.list,
+                    color: primaryColor,
                   ),
                   label: ""),
               BottomNavigationBarItem(
                   backgroundColor: Colors.transparent,
-                  icon: Icon(Icons.settings),
+                  icon: Icon(Icons.settings,color: primaryColor),
                   label: ""),
             ]),
       ),
@@ -85,7 +88,7 @@ class _HomeLayoutState extends State<HomeLayout> {
           showSheet();
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        backgroundColor: primaryColor,
         shape: CircleBorder(side: BorderSide(color: Colors.white, width: 3)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

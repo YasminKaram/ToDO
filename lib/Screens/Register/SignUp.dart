@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo/Provider/MyProvider.dart';
 import 'package:todo/Screens/Register/Register.dart';
 import 'package:todo/Shared/Firebase/Firebase_function.dart';
+import 'package:todo/Shared/style/Colors.dart';
 import 'package:todo/layout/homeLayout.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: pro.mode == ThemeMode.dark
           ? Colors.black
-          : Colors.blue.withOpacity(.5),
+          : Colors.white60,
       body: Form(
         key: formKey,
         child: SingleChildScrollView(
@@ -130,6 +131,7 @@ class SignupScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
+                      backgroundColor:  primaryColor.withOpacity(0.7)
                     ),
                     onPressed: () {
                       if (formKey.currentState?.validate() ?? false) {
